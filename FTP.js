@@ -36,6 +36,8 @@ const MAX_WAIT_COUNT = 20;
 const responseTimeOut = 30;
 const timeOutEndConnection = 3500;
 
+var timeoutOnSend = 100;
+
 var waitCount = MAX_WAIT_COUNT;
 var message = null;
 
@@ -81,7 +83,7 @@ function close_sockets(){
     return setTimeout(function(){
         commandSocket.end();
         commandSocket = null;
-    }, 100);
+    }, timeoutOnSend);
 
 }
 
@@ -260,8 +262,8 @@ FTP.prototype.sendMessage = function (msg){
 };
 
 
-exports.connect = function(configuration) {
-
+exports.connect = function(configuration, timeout) {
+  timeoutOnSend = timeout;
   return new FTP(configuration);
 
 };
